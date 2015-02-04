@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">AdvSensorDemo</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">Advanced Sensor Demo</string>
+    <string name="sig_motion_unavailable">The Significant Motion sensor is not available on this device.</string>
 
 </resources>

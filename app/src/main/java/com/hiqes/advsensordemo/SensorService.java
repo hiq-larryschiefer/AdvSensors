@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2014 HIQES LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.hiqes.advsensordemo;
 
 import android.app.Service;
@@ -9,14 +24,11 @@ import android.hardware.SensorManager;
 import android.os.IBinder;
 import android.util.Log;
 
-/**
- * Created by KP on 15/01/15.
- */
 public class SensorService extends Service implements SensorEventListener {
+    private String                      TAG = this.getClass().getSimpleName();
+    private SensorManager       mSensorManager;
+    private Sensor              mSensor;
 
-    private String TAG = this.getClass().getSimpleName();
-    private SensorManager sensorManager;
-    private Sensor mSensor;
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -25,21 +37,20 @@ public class SensorService extends Service implements SensorEventListener {
     @Override
     public void onCreate() {
         super.onCreate();
-        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        mSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        sensorManager.registerListener(this,mSensor,SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
         return Service.START_NOT_STICKY;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        sensorManager.unregisterListener(this);
+        mSensorManager.unregisterListener(this);
     }
 
     @Override
@@ -55,15 +66,16 @@ public class SensorService extends Service implements SensorEventListener {
         sb.append(event.accuracy);
         sb.append("\n");
 
-        for(float v : event.values){
+        for (float v : event.values) {
             sb.append(v);
             sb.append("\n");
         }
-        Log.i(TAG,sb.toString());
+
+        Log.i(TAG, sb.toString());
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
+        //  Do nothing
     }
 }
